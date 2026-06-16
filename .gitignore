@@ -1,0 +1,33 @@
+# Dependências e build
+node_modules/
+client/node_modules/
+server/node_modules/
+client/dist/
+.vite/
+
+# Ambiente
+.env
+.env.*
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Cursor, IA e editores
+.cursor/
+.cursorrules
+.cursorignore
+**/.cursor/**
+AGENTS.md
+.copilot/
+*.copilot.md
+.github/copilot-instructions.md
+.vscode/
+.idea/
+
+# Temporários
+*.tmp
+*.bak
+*~

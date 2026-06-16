@@ -1,0 +1,12 @@
+{
+  "name": "unicesumar-ws",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix client",
+    "install:server": "npm install --prefix server",
+    "dev": "npm run dev --prefix client",
+    "dev:full": "node dev.cjs",
+    "build:pages": "npm run build:pages --prefix client && node scripts/prepare-gh-pages.cjs"
+  }
+}
