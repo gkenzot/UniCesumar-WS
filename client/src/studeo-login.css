@@ -6,8 +6,8 @@
   font-weight: 400;
   src:
     local("Studeo Regular"),
-    url("/studeo/fonts/studeo-regular.e1a3d85f.woff") format("woff"),
-    url("/studeo/fonts/studeo-regular.792984dc.ttf") format("truetype");
+    var(--studeo-font-regular-woff) format("woff"),
+    var(--studeo-font-regular-ttf) format("truetype");
 }
 
 @font-face {
@@ -16,8 +16,8 @@
   font-weight: 700;
   src:
     local("Studeo Semibold"),
-    url("/studeo/fonts/studeo-semibold.a5d4c544.woff") format("woff"),
-    url("/studeo/fonts/studeo-semibold.5dee89b6.ttf") format("truetype");
+    var(--studeo-font-bold-woff) format("woff"),
+    var(--studeo-font-bold-ttf) format("truetype");
 }
 
 body:has(.studeo-page) {
@@ -33,7 +33,7 @@ body:has(.studeo-page) {
 }
 
 .home-container {
-  background: url("/studeo/main-home-studeo.webp") no-repeat;
+  background: var(--studeo-bg-home) no-repeat;
   background-size: cover;
   height: 100vh;
   min-height: 100vh;
@@ -58,7 +58,7 @@ body:has(.studeo-page) {
 .logo-studeo {
   width: 440px;
   height: 220px;
-  background: url("/studeo/uni-logo-studeo.webp") no-repeat;
+  background: var(--studeo-logo) no-repeat;
   background-size: 370px;
   display: flex;
   transition: all 150ms ease;
@@ -139,7 +139,7 @@ body:has(.studeo-page) {
   .logo-studeo {
     width: 275px;
     height: 88px;
-    background: url("/studeo/uni-logo-studeo.webp") no-repeat;
+    background: var(--studeo-logo) no-repeat;
     background-size: 258px;
     display: inline-block;
   }
@@ -807,6 +807,38 @@ body:has(.studeo-page) {
   flex: 1;
   width: auto;
   min-width: 0;
+  padding: 0.65rem 0.75rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .aviso-botoes {
+    flex-direction: column;
+    max-width: 100%;
+    gap: 0.5rem;
+  }
+
+  .aviso-botoes .aviso-btn-opaco {
+    flex: none;
+    width: 100%;
+    white-space: normal;
+    font-size: 14px !important;
+    line-height: 1.25;
+    padding: 0.75rem 1rem;
+  }
+
+  .painel-actions {
+    flex-direction: column;
+  }
+
+  .painel-actions .aviso-btn-opaco {
+    flex: none;
+    width: 100%;
+    white-space: normal;
+    font-size: 14px !important;
+    line-height: 1.25;
+    padding: 0.75rem 1rem;
+  }
 }
 
 .btn-studeo-painel,

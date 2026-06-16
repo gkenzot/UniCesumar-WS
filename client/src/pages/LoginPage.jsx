@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registrarTentativa } from "../lib/workshopStorage.js";
+import { assetUrl } from "../lib/assetUrl.js";
 import "../studeo-login.css";
 
 export default function LoginPage() {
@@ -48,7 +49,7 @@ export default function LoginPage() {
     <div className="studeo-page">
       <div className="home-container">
         <div className="pull-bottom full-width bg-white home-glass text-center p-t-10 p-b-10">
-          <img src="/studeo/logo-bottom-std.png" alt="" />
+          <img src={assetUrl("studeo/logo-bottom-std.png")} alt="" />
         </div>
 
         <div className="full-height">

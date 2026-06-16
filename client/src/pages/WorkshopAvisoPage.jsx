@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { listarTentativas } from "../lib/workshopStorage.js";
+import { assetUrl } from "../lib/assetUrl.js";
 import "../studeo-login.css";
 
 export default function WorkshopAvisoPage() {
@@ -33,7 +34,7 @@ export default function WorkshopAvisoPage() {
     <div className="studeo-page">
       <div className="home-container aviso-page-container">
         <div className="pull-bottom full-width bg-white home-glass text-center p-t-10 p-b-10">
-          <img src="/studeo/logo-bottom-std.png" alt="" />
+          <img src={assetUrl("studeo/logo-bottom-std.png")} alt="" />
         </div>
 
         <div className="full-height aviso-scroll">
