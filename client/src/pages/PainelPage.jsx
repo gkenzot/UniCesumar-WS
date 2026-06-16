@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { limparTentativas, listarTentativas } from "../lib/workshopStorage.js";
+import { limparTentativas, listarTentativas, removerTentativa } from "../lib/workshopStorage.js";
+import "../studeo-login.css";
 
 function formatarData(iso) {
   try {
@@ -36,6 +37,7 @@ export default function PainelPage() {
   }, []);
 
   useEffect(() => {
+    document.title = "Painel | Studeo Unicesumar";
     carregar();
     const id = setInterval(carregar, 2000);
     return () => clearInterval(id);
@@ -47,77 +49,124 @@ export default function PainelPage() {
     carregar();
   }
 
+  async function apagarEntrada(id) {
+    await removerTentativa(id);
+    carregar();
+  }
+
   return (
-    <div className="page painel-page">
-      <header className="painel-header">
-        <div>
-          <span className="badge-educativo">Painel do Instrutor</span>
-          <h1>Tentativas registradas</h1>
-          <p className="painel-desc">
-            Atualiza a cada 2 segundos. Tentativas com mais de 10 minutos sao
-            removidas automaticamente.
-          </p>
-        </div>
-        <div className="painel-actions">
-          <Link to="/" className="btn-secondary">
-            Pagina de login
-          </Link>
-          <button type="button" className="btn-danger" onClick={limpar}>
-            Limpar sessao
-          </button>
-        </div>
-      </header>
-
-      {erro && <div className="alert alert-erro">{erro}</div>}
-
-      {carregando && !erro && <p className="muted">Carregando...</p>}
-
-      {!carregando && !erro && tentativas.length === 0 && (
-        <div className="empty-state">
-          <p>Nenhuma tentativa ainda.</p>
-          <p className="muted">
-            Peça aos participantes para usar credenciais ficticias na pagina de
-            login.
-          </p>
-        </div>
-      )}
-
-      <ul className="tentativas-lista">
-        {tentativas.map((t) => (
-          <li key={t.id} className="tentativa-card">
-            <div className="tentativa-top">
-              <strong>{t.usuario}</strong>
-              <time>{formatarData(t.dataHora)}</time>
+    <div className="studeo-page">
+      <div className="painel-page-container">
+        <div className="painel-scroll">
+          <div className="container painel-content">
+            <div className="text-center">
+              <div
+                className="logo-studeo logo-studeo-compact"
+                role="img"
+                aria-label="Studeo Unicesumar"
+              />
             </div>
-            <dl className="tentativa-detalhes">
-              <div>
-                <dt>Senha (ficticia)</dt>
-                <dd>
-                  <code>{mascararSenha(t.senha)}</code>
-                </dd>
+
+            <div className="aviso-card home-glass">
+              <span className="aviso-badge">Painel do instrutor</span>
+              <h1 className="aviso-card-titulo font-studeo bold">
+                Tentativas registradas
+              </h1>
+              <p className="painel-desc">
+                Atualiza a cada 2 segundos. Tentativas com mais de 10 minutos
+                sao removidas automaticamente.
+              </p>
+              <div className="painel-actions">
+                <Link
+                  to="/"
+                  className="btn btn-lg btn-studeo font-studeo all-caps fs-16 bold aviso-btn-opaco"
+                >
+                  Pagina de login
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-lg btn-studeo-danger font-studeo all-caps fs-16 bold aviso-btn-opaco"
+                  onClick={limpar}
+                >
+                  Limpar sessao
+                </button>
               </div>
-              <div>
-                <dt>Navegador</dt>
-                <dd>{t.navegador}</dd>
+            </div>
+
+            {erro && (
+              <div className="painel-alert-erro" role="alert">
+                {erro}
               </div>
-              <div>
-                <dt>Sistema</dt>
-                <dd>{t.sistema}</dd>
+            )}
+
+            {carregando && !erro && (
+              <p className="painel-muted">Carregando...</p>
+            )}
+
+            {!carregando && !erro && tentativas.length === 0 && (
+              <div className="aviso-card home-glass painel-empty">
+                <p className="painel-empty-titulo font-studeo bold">
+                  Nenhuma tentativa ainda
+                </p>
+                <p className="painel-desc">
+                  Peça aos participantes para usar credenciais ficticias na
+                  pagina de login.
+                </p>
               </div>
-              <div>
-                <dt>Dispositivo</dt>
-                <dd>{t.dispositivo}</dd>
-              </div>
-              <div>
-                <dt>IP</dt>
-                <dd>
-                  <code>{t.ip}</code>
-                </dd>
-              </div>
-            </dl>
-          </li>
-        ))}
-      </ul>
+            )}
+
+            <ul className="painel-lista">
+              {tentativas.map((t) => (
+                <li key={t.id} className="aviso-card home-glass painel-item">
+                  <div className="painel-item-top">
+                    <strong className="painel-item-usuario">{t.usuario}</strong>
+                    <div className="painel-item-meta">
+                      <time className="painel-item-data">
+                        {formatarData(t.dataHora)}
+                      </time>
+                      <button
+                        type="button"
+                        className="painel-btn-remover"
+                        onClick={() => apagarEntrada(t.id)}
+                        aria-label={`Remover tentativa de ${t.usuario}`}
+                        title="Remover"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </div>
+                  <dl className="aviso-credencial-detalhes">
+                    <div>
+                      <dt>Senha (ficticia)</dt>
+                      <dd>
+                        <code>{mascararSenha(t.senha)}</code>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Navegador</dt>
+                      <dd>{t.navegador}</dd>
+                    </div>
+                    <div>
+                      <dt>Sistema</dt>
+                      <dd>{t.sistema}</dd>
+                    </div>
+                    <div>
+                      <dt>Dispositivo</dt>
+                      <dd>{t.dispositivo}</dd>
+                    </div>
+                    <div>
+                      <dt>IP</dt>
+                      <dd>
+                        <code>{t.ip}</code>
+                      </dd>
+                    </div>
+                  </dl>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

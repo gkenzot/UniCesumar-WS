@@ -139,3 +139,18 @@ export async function limparTentativas() {
   }
   salvarLocal([]);
 }
+
+export async function removerTentativa(id) {
+  if (await usarBackend()) {
+    try {
+      await fetchBackend(`/api/tentativas/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      return;
+    } catch {
+      // cai no localStorage abaixo
+    }
+  }
+
+  salvarLocal(limparAntigasLocal().filter((item) => item.id !== id));
+}

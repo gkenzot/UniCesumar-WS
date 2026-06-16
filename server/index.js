@@ -76,6 +76,15 @@ app.delete("/api/tentativas", (_req, res) => {
   res.json({ ok: true });
 });
 
+app.delete("/api/tentativas/:id", (req, res) => {
+  const index = tentativas.findIndex((item) => item.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ erro: "tentativa nao encontrada" });
+  }
+  tentativas.splice(index, 1);
+  res.json({ ok: true });
+});
+
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });

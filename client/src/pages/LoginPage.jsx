@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registrarTentativa } from "../lib/workshopStorage.js";
 import "../studeo-login.css";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [mensagem, setMensagem] = useState(null);
-  const [avisoAberto, setAvisoAberto] = useState(false);
   const [tentativas, setTentativas] = useState(0);
 
   useEffect(() => {
@@ -27,8 +27,9 @@ export default function LoginPage() {
 
       const proximas = tentativas + 1;
       setTentativas(proximas);
-      if (proximas >= 3) {
-        setAvisoAberto(true);
+      if (proximas >= 2) {
+        navigate("/aviso", { state: { usuario, senha } });
+        return;
       }
 
       setMensagem({ tipo: "erro", texto: "Senha incorreta." });
@@ -45,40 +46,6 @@ export default function LoginPage() {
 
   return (
     <div className="studeo-page">
-      {avisoAberto && (
-        <div
-          className="aviso-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="aviso-titulo"
-        >
-          <div className="aviso-popup">
-            <button
-              type="button"
-              className="aviso-fechar"
-              onClick={() => setAvisoAberto(false)}
-              aria-label="Fechar aviso"
-            >
-              ×
-            </button>
-            <h2 id="aviso-titulo" className="aviso-titulo">
-              Simulação educativa
-            </h2>
-            <p className="aviso-texto">
-              Esta é uma <strong>página falsa</strong> criada para workshop de
-              segurança. Não informe credenciais reais.
-            </p>
-            <button
-              type="button"
-              className="aviso-btn"
-              onClick={() => setAvisoAberto(false)}
-            >
-              Entendi
-            </button>
-          </div>
-        </div>
-      )}
-
       <div className="home-container">
         <div className="pull-bottom full-width bg-white home-glass text-center p-t-10 p-b-10">
           <img src="/studeo/logo-bottom-std.png" alt="" />
